@@ -1,0 +1,26 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div class="example-header-image" mat-card-avatar></div>
+    <mat-card-title>Base Jumper Marcel</mat-card-title>
+    <mat-card-subtitle>Professional extreme hacker</mat-card-subtitle>
+  </mat-card-header>
+  <img alt="Base Jumper Marcel" mat-card-image src="assets/base_jumper_{{picture}}.png">
+  <mat-card-content>
+    <h4>
+      {{currentText}}
+    </h4>
+    <p>
+      {{currentChallenge}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <mat-form-field appearance="outline" class="password-input">
+      <mat-label class="test2">Did you decipher it?</mat-label>
+      <label class="test3">
+        <input (keyup.enter)="checkPassPhrase(passcode)" [(ngModel)]="passcode" matInput placeholder="Placeholder">
+      </label>
+      <mat-icon matSuffix>subdirectory_arrow_left</mat-icon>
+      <mat-hint>Enter the secret passcode here.</mat-hint>
+    </mat-form-field>
+  </mat-card-actions>
+</mat-card>

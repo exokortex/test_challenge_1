@@ -1,0 +1,12 @@
+name: basejumper
+display_name: "Base Jumper"
+category: web
+flag: KDCTF{just_a_test_flag}
+points: 300
+author:
+    name: prod1101
+    email: marcel@schnideritsch.at
+description: |
+          Follow the lead of Marcel the extreme Hacker and reach new heights never thought possible!
+check: false
+build: docker-compose
