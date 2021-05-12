@@ -7,16 +7,16 @@ services:
       - "8085:8080"
     networks:
       - gitlab
+  srv3:
+    container_name: basejumper_srv3
+    build: ./frontend/
+    networks:
+      - gitlab
   frontend:
     container_name: basejumper_frontend
     build: ./frontend/
     ports:
       - "8084:80"
-    networks:
-      - gitlab
-  srv3:
-    container_name: basejumper_srv3
-    build: ./frontend/
     networks:
       - gitlab
 

@@ -1,0 +1,23 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+metadata:
+  name: test-challenge-
+build:
+  artifacts:
+  - image: backend
+    context: backend
+    docker:
+      dockerfile: Dockerfile
+  - image: frontend
+    context: frontend
+    docker:
+      dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+    - backend-deployment.yaml
+    - backend-service.yaml
+    - frontend-deployment.yaml
+    - frontend-service.yaml
+    - gitlab-networkpolicy.yaml
+    - srv3-deployment.yaml
