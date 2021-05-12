@@ -1,3 +1,4 @@
+apiVersion: skaffold/v2beta15
 kind: Config
 metadata:
   name: test-challenge-
