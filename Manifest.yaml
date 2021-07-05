@@ -29,6 +29,7 @@ challenges:
         - default:
           - type: static
             content: LosCTF{test_1}
+            hardcoded: true
             #hardcoded_in_dist: false # we should not make two separate versions of the files because otherwise a differential attack might be possible
                                       # even changing flags for the same instance of the service might be a problem -> add warning and manual approval step
             #hardcoded_in_image: false # challenge authors shall write their challenges in a way that is supported
