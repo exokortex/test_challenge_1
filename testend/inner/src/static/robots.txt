@@ -1,0 +1,6 @@
+User-agent: H4xx3r
+Disallow:
+
+User-agent: *
+Disallow: /n0_cr4wl3rs_plzZz
+Disallow: /

@@ -1,11 +1,10 @@
-FROM node as build
-WORKDIR /app
-COPY package*.json /app/
-RUN npm install
-COPY . /app
-ARG configuration=production
-RUN npm run build -- --outputPath=./dist/out --configuration $configuration
+FROM python:3.4
 
-FROM nginx
-COPY --from=build /app/dist/out/ /usr/share/nginx/html
-COPY /nginx-custom.conf /etc/nginx/conf.d/default.conf
+WORKDIR /usr/src/app
+COPY ./src/requirements.txt ./
+RUN pip install -r requirements.txt
+COPY ./src/ .
+
+EXPOSE 5000
+#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "startapp.sh"]

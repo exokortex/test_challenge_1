@@ -1,12 +1,53 @@
-name: basejumper
-display_name: "Base Jumper"
-category: web
-flag: KDCTF{just_a_test_flag}
-points: 300
-author:
-    name: prod1101
-    email: marcel@schnideritsch.at
-description: |
-          Follow the lead of Marcel the extreme Hacker and reach new heights never thought possible!
-check: false
-build: docker-compose
+version: '2'
+
+name: example_challenge_multi
+
+services:
+  deployment_options: [docker-compose]
+  health_check: false
+  endpoints:
+    - type: http
+      tls: true
+      plain: true
+      serviceName: frontend
+      servicePort: 5000
+      #requires_url: https://testchallenge.chals.testctf.com/
+    - type: tcp
+      serviceName: backend
+      servicePort: 4000
+      #requires_public_port: 4000
+      hide_in: [chal1]
+
+challenges:
+  - chal1:
+      display_name: "Multi Flag 1"
+      tags: [web]
+      authors:
+        - name: testauthor
+          email: testauthor@test.local
+      flags:
+        - default:
+          - type: static
+            content: LosCTF{test_1}
+            #hardcoded_in_dist: false # we should not make two separate versions of the files because otherwise a differential attack might be possible
+                                      # even changing flags for the same instance of the service might be a problem -> add warning and manual approval step
+            #hardcoded_in_image: false # challenge authors shall write their challenges in a way that is supported
+      description: |
+              The first flag
+      hints:
+        - { content: "This hint costs points", default_cost: 10 } # stolen fom https://github.com/csivitu/ctfup
+        - This hint is free
+  - chal2:
+      display_name: "Multi Flag 2"
+      tags: [web]
+      authors:
+        - name: testauthor
+          email: testauthor@test.local
+        - name: testauthor2
+          email: testauthor2@test.local
+      flags:
+        - default:
+          - type: static
+            content: LosCTF{test_2}
+      description: |
+              The second flag
