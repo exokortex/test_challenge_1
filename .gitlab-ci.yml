@@ -1,0 +1,91 @@
+# TODO add this back to the main repo with CI/CD configuration file build.gitlab-ci.yml@fuzzyland/k8ctf2/challenge_build
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  BUILD_DOCKER_REGISTRY: registry.losfuzzys.net/fuzzyland/k8ctf2/containers
+  GITLAB_USERNAME: ci_user
+  KDFD_BIN: challenge_build/tools/kdfd.py
+
+stages:
+  - inject_kdfd
+  - check
+  - prepare
+  - build
+  - push
+
+before_script:
+  - pwd
+  - "echo Pipeline triggered by: $CI_TRIGGER_SOURCE"
+  - find $CI_PROJECT_DIR
+
+inject_kdfd:
+  stage: inject_kdfd
+  image:
+    name: alpine/git
+    entrypoint: [""]
+  artifacts:
+    untracked: true
+  script:
+    - git clone https://dontmindme:WLThCzVyTdpbRxqv8RyC@git.losfuzzys.net/fuzzyland/k8ctf2/challenge_build.git
+    - rm -rf challenge_build/.git
+
+check:
+    image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
+    stage: check
+    script:
+        - pwd
+        - ls -al
+        - echo $CI_PROJECT_DIR
+        - $KDFD_BIN -i $CI_PROJECT_DIR check
+
+build_k8s_objects:
+  image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
+  stage: build
+  script:
+    - echo git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
+    - git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
+    - pushd /tmp/chalout
+    - git checkout --orphan shadow || true
+    - git checkout shadow || true
+    - rm -rf /tmp/chalout/*
+    - popd
+    - echo git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
+    - echo git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
+    - git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
+    - git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
+    - pwd
+    - ls -al
+    - $KDFD_BIN -i $CI_PROJECT_DIR -o /tmp/chalout build
+    - find $CI_PROJECT_DIR
+    - cd /tmp/chalout
+    - git add .
+    - git status
+    - git commit -m "${CI_COMMIT_MESSAGE}"
+    - git push origin shadow -o ci.skip
+
+prepare_docker:
+  stage: prepare
+  image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
+  script:
+    - $KDFD_BIN -i $CI_PROJECT_DIR kaniko > generated-config.yml
+  artifacts:
+    paths:
+      - generated-config.yml
+
+build_docker:
+  stage: build
+  needs:
+    - prepare_docker
+  trigger:
+    include:
+      - artifact: generated-config.yml
+        job: prepare_docker
+    strategy: depend
+
+push:
+  stage: push
+  needs:
+    - build_k8s_objects
+    - build_docker
+  script:
+    - echo 'done :)'
