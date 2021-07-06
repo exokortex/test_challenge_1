@@ -27,6 +27,5 @@ services:
     networks:
       - gitlab
 
-
 networks:
   gitlab:
