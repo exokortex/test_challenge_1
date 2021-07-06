@@ -55,7 +55,7 @@ build_k8s_objects:
     - git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
     - pwd
     - ls -al
-    - $KDFD_BIN -i $CI_PROJECT_DIR -o /tmp/chalout build
+    - $KDFD_BIN -i $CI_PROJECT_DIR -o /tmp/chalout build_k8s
     - find $CI_PROJECT_DIR
     - cd /tmp/chalout
     - git add .
@@ -67,7 +67,7 @@ prepare_docker:
   stage: prepare
   image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
   script:
-    - $KDFD_BIN -i $CI_PROJECT_DIR kaniko > generated-config.yml
+    - $KDFD_BIN -i $CI_PROJECT_DIR -o generated-config.yml build_docker --ci gitlab --build-tool kaniko
   artifacts:
     paths:
       - generated-config.yml
