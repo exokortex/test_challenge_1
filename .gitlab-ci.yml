@@ -62,7 +62,7 @@ prepare_docker:
   stage: prepare
   image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
   script:
-    - $KDFD_BIN -i $CI_PROJECT_DIR -o generated-config.yml build_docker --ci gitlab --build-tool kaniko
+    - $KDFD_BIN -i $CI_PROJECT_DIR -o generated-config.yml build_docker --ci gitlab --build-tool dind
   artifacts:
     paths:
       - generated-config.yml
