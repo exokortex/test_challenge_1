@@ -57,11 +57,6 @@ build_k8s_objects:
     - ls -al
     - $KDFD_BIN -i $CI_PROJECT_DIR -o /tmp/chalout build_k8s
     - find $CI_PROJECT_DIR
-    - cd /tmp/chalout
-    - git add .
-    - git status
-    - git commit -m "${CI_COMMIT_MESSAGE}"
-    - git push origin shadow -o ci.skip
 
 prepare_docker:
   stage: prepare
@@ -88,4 +83,9 @@ push:
     - build_k8s_objects
     - build_docker
   script:
-    - echo 'done :)'
+    - cd /tmp/chalout
+    - git add .
+    - git status
+    - git commit -m "${CI_COMMIT_MESSAGE}"
+    - git push origin shadow -o ci.skip # TODO ignore if no changes exist
+
