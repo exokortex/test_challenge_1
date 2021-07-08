@@ -39,7 +39,7 @@ check:
         - $KDFD_BIN -i $CI_PROJECT_DIR check
 
 prepare_docker:
-  stage: build
+  stage: prepare
   image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
   script:
     - $KDFD_BIN -i $CI_PROJECT_DIR -o generated-config.yml build_docker --ci gitlab --build-tool kaniko
@@ -59,7 +59,7 @@ build_docker:
 
 build_k8s_objects:
   image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
-  stage: build
+  stage: push
   needs:
     - build_docker
   script:
