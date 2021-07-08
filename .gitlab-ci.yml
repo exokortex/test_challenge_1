@@ -30,16 +30,21 @@ inject_kdfd:
     - rm -rf challenge_build/.git
 
 check:
-    image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
-    stage: check
-    script:
-        - pwd
-        - ls -al
-        - echo $CI_PROJECT_DIR
-        - $KDFD_BIN -i $CI_PROJECT_DIR check
+  image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
+  stage: check
+  needs:
+    - inject_kdfd
+  script:
+    - pwd
+    - ls -al
+    - echo $CI_PROJECT_DIR
+    - $KDFD_BIN -i $CI_PROJECT_DIR check
 
 prepare_docker:
   stage: prepare
+  needs:
+    - check
+    - inject_kdfd
   image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
   script:
     - $KDFD_BIN -i $CI_PROJECT_DIR -o generated-config.yml build_docker --ci gitlab --build-tool kaniko
@@ -62,6 +67,7 @@ build_k8s_objects:
   stage: push
   needs:
     - build_docker
+    - inject_kdfd
   script:
     - echo git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
     - git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
