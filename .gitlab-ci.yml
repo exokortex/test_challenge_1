@@ -38,28 +38,8 @@ check:
         - echo $CI_PROJECT_DIR
         - $KDFD_BIN -i $CI_PROJECT_DIR check
 
-build_k8s_objects:
-  image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
-  stage: build
-  script:
-    - echo git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
-    - git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
-    - pushd /tmp/chalout
-    - git checkout --orphan shadow || true
-    - git checkout shadow || true
-    - rm -rf /tmp/chalout/*
-    - popd
-    - echo git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
-    - echo git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
-    - git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
-    - git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
-    - pwd
-    - ls -al
-    - $KDFD_BIN -i $CI_PROJECT_DIR -o /tmp/chalout build_k8s
-    - find $CI_PROJECT_DIR
-
 prepare_docker:
-  stage: prepare
+  stage: build
   image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
   script:
     - $KDFD_BIN -i $CI_PROJECT_DIR -o generated-config.yml build_docker --ci gitlab --build-tool kaniko
@@ -77,15 +57,29 @@ build_docker:
         job: prepare_docker
     strategy: depend
 
-push:
-  stage: push
+build_k8s_objects:
+  image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
+  stage: build
   needs:
-    - build_k8s_objects
     - build_docker
   script:
+    - echo git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
+    - git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
+    - pushd /tmp/chalout
+    - git checkout --orphan shadow || true
+    - git checkout shadow || true
+    - rm -rf /tmp/chalout/*
+    - popd
+    - echo git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
+    - echo git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
+    - git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
+    - git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
+    - pwd
+    - ls -al
+    - $KDFD_BIN -i $CI_PROJECT_DIR -o /tmp/chalout build_k8s
+    - find $CI_PROJECT_DIR
     - cd /tmp/chalout
     - git add .
     - git status
     - git commit -m "${CI_COMMIT_MESSAGE}"
     - git push origin shadow -o ci.skip # TODO ignore if no changes exist
-
