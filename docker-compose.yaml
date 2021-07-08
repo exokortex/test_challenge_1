@@ -27,9 +27,9 @@ services:
 #    networks:
 #      - gitlab
 
-  simpe_http:
-    build: ./simpe_http/
-    image: simpe_http
+  simple_http:
+    build: ./simple_http/
+    image: simple_http
     ports:
       - "8080:80"
 
