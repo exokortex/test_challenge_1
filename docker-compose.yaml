@@ -27,6 +27,19 @@ services:
 #    networks:
 #      - gitlab
 
+  extern_http:
+    image: thriqon/alpine-darkhttpd
+    ports:
+      - "8081:80"
+
+  extern_tcp:
+    image: cjimti/go-echo
+    environment:
+      - TCP_PORT=2701
+      - NODE_NAME="extern_tcp"
+    ports:
+      - "1234:2701"
+
   simple_http:
     build: ./simple_http/
     image: simple_http
@@ -38,9 +51,9 @@ services:
     image: simple_tcp
     environment:
       - TCP_PORT=2701
-      - NODE_NAME="EchoNode"
+      - NODE_NAME="simple_tcp"
     ports:
-      - "3000:5000"
+      - "4321:2701"
 
 networks:
   gitlab:

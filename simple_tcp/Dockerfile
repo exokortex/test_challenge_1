@@ -1,2 +1,2 @@
-FROM thriqon/alpine-darkhttpd
-EXPOSE 80
+FROM cjimti/go-echo
+EXPOSE 2701
