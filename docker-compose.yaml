@@ -10,14 +10,14 @@ services:
 #    networks:
 #      - gitlab
 
-  frontend:
-    container_name: multi_frontend
-    build: ./frontend/
-    image: frontend
-    ports:
-      - "3000:5000"
-    networks:
-      - gitlab
+#  frontend:
+#    container_name: multi_frontend
+#    build: ./frontend/
+#    image: frontend
+#    ports:
+#      - "3000:5000"
+#    networks:
+#      - gitlab
 
 #  test_testend:
 #    container_name: multi_testend
@@ -26,6 +26,21 @@ services:
 #      - "3000:5000"
 #    networks:
 #      - gitlab
+
+simpe_http:
+  build: ./simpe_http/
+  image: simpe_http
+  ports:
+    - "8080:80"
+
+simple_tcp:
+  build: ./simple_tcp/
+  image: simple_tcp
+  environment:
+    - TCP_PORT=2701
+    - NODE_NAME="EchoNode"
+  ports:
+    - "3000:5000"
 
 networks:
   gitlab:
