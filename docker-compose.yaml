@@ -1,14 +1,14 @@
 version: "3"
 
 services:
-
-  backend:
-    container_name: multi_backend
-    build: ./backend/
-    ports:
-      - "4000:5000"
-    networks:
-      - gitlab
+#
+#  backend:
+#    container_name: multi_backend
+#    build: ./backend/
+#    ports:
+#      - "4000:5000"
+#    networks:
+#      - gitlab
 
   frontend:
     container_name: multi_frontend
@@ -19,13 +19,13 @@ services:
     networks:
       - gitlab
 
-  test_testend:
-    container_name: multi_testend
-    build: ./testend/inner
-    ports:
-      - "3000:5000"
-    networks:
-      - gitlab
+#  test_testend:
+#    container_name: multi_testend
+#    build: ./testend/inner
+#    ports:
+#      - "3000:5000"
+#    networks:
+#      - gitlab
 
 networks:
   gitlab:
