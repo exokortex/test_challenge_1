@@ -32,7 +32,7 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - flag:/www/flag.txt
+      - flag_chal2:/www/flag.txt:ro
 
   extern_tcp:
     image: cjimti/go-echo
@@ -42,7 +42,7 @@ services:
     ports:
       - "1234:2701"
     volumes:
-      - flag:/flag.txt
+      - flag_chal1:/flag.txt:ro
 
   simple_http:
     build: ./simple_http/
@@ -50,7 +50,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - flag:/www/flag.txt
+      - flag_chal1:/www/flag.txt:ro
 
   simple_tcp:
     build: ./simple_tcp/
@@ -61,14 +61,11 @@ services:
     ports:
       - "4321:2701"
     volumes:
-      - flag:/flag.txt
+      - flag_chal1:/flag.txt:ro
 
 volumes:
-  flag:
-    driver_opts:
-      type: none
-      device: ${PWD}/flag.txt #NOTE needs full path (~ doesn't work)
-      o: bind
+  flag_chal1:
+  flag_chal2:
 
 networks:
   gitlab:
