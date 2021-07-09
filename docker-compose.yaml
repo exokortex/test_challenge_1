@@ -31,6 +31,8 @@ services:
     image: thriqon/alpine-darkhttpd
     ports:
       - "8081:80"
+    volumes:
+      - flag:/www/flag.txt
 
   extern_tcp:
     image: cjimti/go-echo
@@ -39,12 +41,16 @@ services:
       - NODE_NAME="extern_tcp"
     ports:
       - "1234:2701"
+    volumes:
+      - flag:/flag.txt
 
   simple_http:
     build: ./simple_http/
     image: simple_http
     ports:
       - "8080:80"
+    volumes:
+      - flag:/www/flag.txt
 
   simple_tcp:
     build: ./simple_tcp/
@@ -54,6 +60,15 @@ services:
       - NODE_NAME="simple_tcp"
     ports:
       - "4321:2701"
+    volumes:
+      - flag:/flag.txt
+
+volumes:
+  flag:
+    driver_opts:
+      type: none
+      device: ${PWD}/flag.txt #NOTE needs full path (~ doesn't work)
+      o: bind
 
 networks:
   gitlab:
