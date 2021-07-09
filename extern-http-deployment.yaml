@@ -26,12 +26,15 @@ spec:
           resources: {}
           volumeMounts:
             - mountPath: /www/flag.txt
-              name: extern-http-claim0
+              name: extern-http-cm0
               readOnly: true
+              subPath: flag.txt
       restartPolicy: Always
       volumes:
-        - name: extern-http-claim0
-          persistentVolumeClaim:
-            claimName: extern-http-claim0
-            readOnly: true
+        - configMap:
+            items:
+              - key: chal1
+                path: flag.txt
+            name: extern-http-cm0
+          name: extern-http-cm0
 status: {}

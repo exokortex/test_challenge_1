@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  chal1: |
+    asdf
+  chal2: |
+    fdlksafasdhoihfiheowi
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: kdfd-testing-challenge-helper
+  name: kdfd-testing-challenge-helper-cm0

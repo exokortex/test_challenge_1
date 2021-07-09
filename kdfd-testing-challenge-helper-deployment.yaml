@@ -24,10 +24,10 @@ spec:
           resources: {}
           volumeMounts:
             - mountPath: /flags
-              name: kdfd-testing-challenge-helper-claim0
+              name: kdfd-testing-challenge-helper-cm0
       restartPolicy: Always
       volumes:
-        - name: kdfd-testing-challenge-helper-claim0
-          persistentVolumeClaim:
-            claimName: kdfd-testing-challenge-helper-claim0
+        - configMap:
+            name: kdfd-testing-challenge-helper-cm0
+          name: kdfd-testing-challenge-helper-cm0
 status: {}

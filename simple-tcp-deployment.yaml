@@ -31,12 +31,15 @@ spec:
           resources: {}
           volumeMounts:
             - mountPath: /flag.txt
-              name: simple-tcp-claim0
+              name: simple-tcp-cm0
               readOnly: true
+              subPath: flag.txt
       restartPolicy: Always
       volumes:
-        - name: simple-tcp-claim0
-          persistentVolumeClaim:
-            claimName: simple-tcp-claim0
-            readOnly: true
+        - configMap:
+            items:
+              - key: chal2
+                path: flag.txt
+            name: simple-tcp-cm0
+          name: simple-tcp-cm0
 status: {}
