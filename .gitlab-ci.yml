@@ -72,9 +72,9 @@ build_k8s_objects:
     - echo git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
     - git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
     - pushd /tmp/chalout
-    - git checkout --orphan shadow || true
-    - git checkout --force shadow || true
-    - rm -rf /tmp/chalout/*
+    # create new branch if it does not exist and checkout branch if it exists
+    - git checkout --orphan shadow || git checkout --force shadow
+    - git rm -rf .
     - popd
     - echo git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
     - echo git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
