@@ -40,6 +40,6 @@ spec:
             items:
               - key: chal2
                 path: flag.txt
-            name: extern-tcp-cm0
+            secretName: extern-tcp-cm0
           name: extern-tcp-cm0
 status: {}
