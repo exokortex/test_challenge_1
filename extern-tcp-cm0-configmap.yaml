@@ -1,12 +1,9 @@
 apiVersion: v1
-data:
-  chal2: |
-    fdlksafasdhoihfiheowi
-kind: ConfigMap
+kind: Secret
 metadata:
+  name: extern-tcp-cm0
   annotations:
     use-subpath: "true"
-  creationTimestamp: null
-  labels:
-    io.kompose.service: extern-tcp
-  name: extern-tcp-cm0
+type: Opaque
+data:
+  chal2: YWRtaW4=

@@ -36,7 +36,7 @@ spec:
               subPath: flag.txt
       restartPolicy: Always
       volumes:
-        - configMap:
+        - secret:
             items:
               - key: chal2
                 path: flag.txt
