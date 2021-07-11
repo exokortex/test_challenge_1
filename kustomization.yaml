@@ -12,7 +12,7 @@ resources:
   - simple-http-deployment.yaml
 patches:
   - path: kdfd-flags-secret-patch.yaml
-  - path: /extern-http-deployment-flag-patch.yaml
-  - path: /extern-tcp-deployment-flag-patch.yaml
-  - path: /simple-http-deployment-flag-patch.yaml
-  - path: /simple-tcp-deployment-flag-patch.yaml
+  - path: extern-http-deployment-flag-patch.yaml
+  - path: extern-tcp-deployment-flag-patch.yaml
+  - path: simple-http-deployment-flag-patch.yaml
+  - path: simple-tcp-deployment-flag-patch.yaml
