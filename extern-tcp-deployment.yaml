@@ -29,17 +29,5 @@ spec:
           ports:
             - containerPort: 2701
           resources: {}
-          volumeMounts:
-            - mountPath: /flag.txt
-              name: extern-tcp-cm0
-              readOnly: true
-              subPath: flag.txt
       restartPolicy: Always
-      volumes:
-        - secret:
-            items:
-              - key: chal2
-                path: flag.txt
-            secretName: extern-tcp-cm0
-          name: extern-tcp-cm0
 status: {}

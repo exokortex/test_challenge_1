@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: extern-tcp
+spec:
+  template:
+    spec:
+      containers:
+        - name: extern-tcp
+          volumeMounts:
+            - mountPath: /flag.txt
+              name: extern-tcp-cm0
+              readOnly: true
+              subPath: flag.txt
+      volumes:
+        - secret:
+            items:
+              - key: chal2
+                path: flag.txt
+            secretName: extern-tcp-cm0
+          name: extern-tcp-cm0
