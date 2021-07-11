@@ -16,6 +16,7 @@ spec:
               subPath: flag.txt
       volumes:
         - secret:
+            defaultMode: 0400
             items:
               - key: chal1
                 path: flag.txt
