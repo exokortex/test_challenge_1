@@ -1,16 +1,17 @@
+
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: extern-tcp
+  name: simple-http
 spec:
   template:
     spec:
       containers:
-        - name: extern-tcp
+        - name: simple-http
           volumeMounts:
-            - mountPath: /flag.txt
-              name: extern-tcp-cm0
+            - mountPath: /www/flag.txt
+              name: flags
               readOnly: true
               subPath: flag.txt
       volumes:
@@ -18,5 +19,5 @@ spec:
             items:
               - key: chal2
                 path: flag.txt
-            secretName: extern-tcp-cm0
-          name: extern-tcp-cm0
+            secretName: flags
+          name: flags

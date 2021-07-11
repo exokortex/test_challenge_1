@@ -24,17 +24,5 @@ spec:
           ports:
             - containerPort: 80
           resources: {}
-          volumeMounts:
-            - mountPath: /www/flag.txt
-              name: simple-http-cm0
-              readOnly: true
-              subPath: flag.txt
       restartPolicy: Always
-      volumes:
-        - configMap:
-            items:
-              - key: chal2
-                path: flag.txt
-            name: simple-http-cm0
-          name: simple-http-cm0
 status: {}

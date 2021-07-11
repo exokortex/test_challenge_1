@@ -1,0 +1,23 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: extern-tcp
+spec:
+  template:
+    spec:
+      containers:
+        - name: extern-tcp
+          volumeMounts:
+            - mountPath: /flag.txt
+              name: flags
+              readOnly: true
+              subPath: flag.txt
+      volumes:
+        - secret:
+            items:
+              - key: chal2
+                path: flag.txt
+            secretName: flags
+          name: flags
