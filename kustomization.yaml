@@ -11,6 +11,7 @@ resources:
   - extern-tcp-deployment.yaml
   - simple-http-deployment.yaml
   - kdfd-flags-secret-patch.yaml
+  - ingress.yaml
 patches:
   - path: extern-http-deployment-flag-patch.yaml
   - path: extern-tcp-deployment-flag-patch.yaml
