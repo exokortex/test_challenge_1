@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-extern-http
+  annotations:
+    # use the shared ingress-nginx
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: extern-http.clusty.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: extern-http
+          servicePort: 8081
