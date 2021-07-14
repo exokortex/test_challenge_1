@@ -18,4 +18,3 @@ patches:
   - path: extern-tcp-deployment-flag-patch.yaml
   - path: simple-http-deployment-flag-patch.yaml
   - path: simple-tcp-deployment-flag-patch.yaml
-  - path: test_challenge_1_patch.yaml

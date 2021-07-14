@@ -1,8 +1,0 @@
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: extern-http
-spec:
-  rules:
-    - host: extern-http.clusty.local
