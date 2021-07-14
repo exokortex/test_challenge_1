@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kompose.service.expose: myurl.lol
+  creationTimestamp: null
+  labels:
+    io.kompose.service: simple-http
+  name: simple-http
+spec:
+  rules:
+    - host: myurl.lol
+      http:
+        paths:
+          - backend:
+              serviceName: simple-http
+              servicePort: 8080
+status:
+  loadBalancer: {}

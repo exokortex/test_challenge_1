@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    kompose.service.type: nodeport
   creationTimestamp: null
   labels:
     io.kompose.service: extern-tcp
@@ -14,6 +16,8 @@ spec:
     type: Recreate
   template:
     metadata:
+      annotations:
+        kompose.service.type: nodeport
       creationTimestamp: null
       labels:
         io.kompose.service: extern-tcp

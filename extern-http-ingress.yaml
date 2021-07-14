@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kompose.service.expose: testing.local
+  creationTimestamp: null
+  labels:
+    io.kompose.service: extern-http
+  name: extern-http
+spec:
+  rules:
+    - host: testing.local
+      http:
+        paths:
+          - backend:
+              serviceName: extern-http
+              servicePort: 8081
+status:
+  loadBalancer: {}

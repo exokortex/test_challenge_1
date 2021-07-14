@@ -3,7 +3,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - simple-http-service.yaml
+  - simple-http-ingress.yaml
   - extern-http-service.yaml
+  - extern-http-ingress.yaml
   - extern-tcp-service.yaml
   - simple-tcp-service.yaml
   - simple-tcp-deployment.yaml
@@ -11,9 +13,9 @@ resources:
   - extern-tcp-deployment.yaml
   - simple-http-deployment.yaml
   - kdfd-flags-secret-patch.yaml
-  - ingress.yaml
 patches:
   - path: extern-http-deployment-flag-patch.yaml
   - path: extern-tcp-deployment-flag-patch.yaml
   - path: simple-http-deployment-flag-patch.yaml
   - path: simple-tcp-deployment-flag-patch.yaml
+  - path: test_challenge_1_patch.yaml

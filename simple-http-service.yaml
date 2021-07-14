@@ -1,6 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    kompose.service.expose: myurl.lol
   creationTimestamp: null
   labels:
     io.kompose.service: simple-http
