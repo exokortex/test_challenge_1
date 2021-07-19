@@ -3,8 +3,10 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
   BUILD_DOCKER_REGISTRY: registry.losfuzzys.net/fuzzyland/k8ctf2/containers
+  KDFD_DOCKER_REGISTRY: registry.losfuzzys.net/fuzzyland/k8ctf2/kdfd
+  KDFD_IMAGE: $KDFD_DOCKER_REGISTRY/kdfd:latest
   GITLAB_USERNAME: ci_user
-  KDFD_BIN: challenge_build/tools/kdfd.py
+  KDFD_BIN: kdfd/kdfd/kdfd.py
 
 stages:
   - inject_kdfd
@@ -26,11 +28,11 @@ inject_kdfd:
   artifacts:
     untracked: true
   script:
-    - git clone https://dontmindme:WLThCzVyTdpbRxqv8RyC@git.losfuzzys.net/fuzzyland/k8ctf2/challenge_build.git
-    - rm -rf challenge_build/.git
+    - git clone https://dontmindme:yKxS5EzpQTHQyLzG3X3z@git.losfuzzys.net/fuzzyland/k8ctf2/kdfd.git kdfd
+    - rm -rf kdfd/.git
 
 check:
-  image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
+  image: $KDFD_IMAGE
   stage: check
   needs:
     - inject_kdfd
@@ -45,7 +47,7 @@ prepare_docker:
   needs:
     - check
     - inject_kdfd
-  image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
+  image: $KDFD_IMAGE
   script:
     - $KDFD_BIN -i $CI_PROJECT_DIR -o generated-config.yml build_docker --ci gitlab --build-tool kaniko
   artifacts:
@@ -63,30 +65,26 @@ build_docker:
     strategy: depend
 
 build_k8s_objects:
-  image: $BUILD_DOCKER_REGISTRY/ctf_python:latest
+  image: $KDFD_IMAGE
   stage: push
   needs:
     - build_docker
     - inject_kdfd
   script:
-    - echo git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
+    - git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
+    - git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
     - git clone "https://${GITLAB_USERNAME}:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" /tmp/chalout
+
     - pushd /tmp/chalout
     # create new branch if it does not exist and checkout branch if it exists
     - git checkout --orphan shadow || git checkout --force shadow
     - git rm -rf .
     - popd
-    - echo git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
-    - echo git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
-    - git config --global user.email "${GIT_USER_EMAIL:-$GITLAB_USER_EMAIL}"
-    - git config --global user.name "${GIT_USER_NAME:-$GITLAB_USER_NAME}"
-    - pwd
-    - ls -al
+
     - $KDFD_BIN -i $CI_PROJECT_DIR -o /tmp/chalout build_k8s
-    - find $CI_PROJECT_DIR
+
     - pushd /tmp/chalout
     - git add .
-    - git status
     - git commit -m "${CI_COMMIT_MESSAGE}"
     - git push origin shadow -o ci.skip # TODO ignore if no changes exist
     - popd

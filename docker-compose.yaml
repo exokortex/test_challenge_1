@@ -1,11 +1,11 @@
-version: "3.8"
+version: "3"
 
 services:
 
   kdfd_testing_challenge_helper:
-    image: thriqon/alpine-darkhttpd
+    image: kdfd # registry.losfuzzys.net/fuzzyland/k8ctf2/kdfd/kdfd
     volumes:
-      - ./flags:/flags
+      - ./:/project/
 
   extern_http:
     image: thriqon/alpine-darkhttpd
@@ -13,7 +13,9 @@ services:
       - "8081:80"
     volumes:
       - ./flags/chal1:/www/flag.txt:ro
-
+    labels:
+      kompose.service.expose: "testing.local"
+      #kompose.service.expose: "true"
   extern_tcp:
     image: cjimti/go-echo
     environment:
@@ -23,6 +25,8 @@ services:
       - "1234:2701"
     volumes:
       - ./flags/chal2:/flag.txt:ro
+    labels:
+      kompose.service.type: nodeport
 
   simple_http:
     build: ./simple_http/
@@ -31,6 +35,8 @@ services:
       - "8080:80"
     volumes:
       - ./flags/chal2:/www/flag.txt:ro
+    labels:
+      kompose.service.expose: "myurl.lol"
 
   simple_tcp:
     build: ./simple_tcp/
@@ -42,6 +48,19 @@ services:
       - "4321:2701"
     volumes:
       - ./flags/chal2:/flag.txt:ro
+    labels:
+      kompose.service.type: nodeport
+      # TODO use secrets instead of bind mounts
+#    secrets:
+#      - source: my_secret
+#        target: /redis_secret
+#        uid: '103'
+#        gid: '103'
+#        mode: 0440
+#
+#secrets:
+#  my_secret:
+#    file: ./my_secret.txt
 
 networks:
   gitlab:
