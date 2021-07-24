@@ -2,7 +2,7 @@ version: '2'
 
 name: example_challenge_multi
 
-services:
+app:
   deployment_options: [docker-compose]
   health_check: false
   endpoints:
