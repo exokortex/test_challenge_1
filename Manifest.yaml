@@ -7,16 +7,27 @@ app:
   health_check: false
   endpoints:
     - type: http
-      tls: true
-      plain: true
-      serviceName: frontend
-      servicePort: 5000
+      #tls: true
+      #plain: true
+      serviceName: extern_http
+      servicePort: 8081
       #requires_url: https://testchallenge.chals.testctf.com/
-    - type: tcp
-      serviceName: backend
-      servicePort: 4000
-      #requires_public_port: 4000
+    - type: http
+      #tls: true
+      #plain: true
+      serviceName: simple_http
+      servicePort: 8080
+      #requires_url: https://testchallenge.chals.testctf.com/
       hide_in: [chal1]
+    - type: tcp
+      serviceName: extern_tcp
+      servicePort: 1234
+      #requires_public_port: 4000
+    - type: tcp
+      serviceName: simple_tcp
+      servicePort: 4321
+      #requires_public_port: 4000
+      hide_in: [chal2]
 
 challenges:
   chal1:
