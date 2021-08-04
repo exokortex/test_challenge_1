@@ -3,7 +3,7 @@ version: '2'
 name: example_challenge_multi
 
 app:
-  deployment_options: [docker-compose]
+  source_types: [docker-compose]
   health_check: false
   endpoints:
     - type: http
