@@ -2,11 +2,6 @@ version: "3"
 
 services:
 
-  kdfd_testing_challenge_helper:
-    image: kdfd # registry.losfuzzys.net/fuzzyland/k8ctf2/kdfd/kdfd
-    volumes:
-      - ./:/project/
-
   extern_http:
     image: thriqon/alpine-darkhttpd
     ports:
