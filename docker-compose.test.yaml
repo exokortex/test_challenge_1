@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+
+  test_chal1:
+    build: ./test_chal1
+    depends_on:
+      - simple_http
+#    volumes:
+#      - ./build/dist/:/build/dist/
+    env_file:
+      - ./build/test_chal1.env
+    labels:
+      kdfd.test.challenge: chal1

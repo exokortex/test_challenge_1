@@ -2,15 +2,15 @@ version: "3"
 
 services:
 
-  extern_http:
-    image: thriqon/alpine-darkhttpd
-    ports:
-      - "8081:80"
-    volumes:
-      - ./flags/chal1:/www/flag.txt:ro
-    labels:
-      kompose.service.expose: "true"
-
+#  extern_http:
+#    image: thriqon/alpine-darkhttpd
+#    ports:
+#      - "8081:80"
+#    volumes:
+#      - ./build/flags/chal1:/www/flag.txt:ro
+#    labels:
+#      kompose.service.expose: "true"
+#
 #  extern_tcp:
 #    image: cjimti/go-echo
 #    environment:
@@ -19,20 +19,20 @@ services:
 #    ports:
 #      - "1234:2701"
 #    volumes:
-#      - ./flags/chal2:/flag.txt:ro
+#      - ./build/flags/chal2:/flag.txt:ro
 #    labels:
 #      kompose.service.type: nodeport
 #
-#  simple_http:
-#    build: ./simple_http/
-#    image: simple_http
-#    ports:
-#      - "8080:80"
-#    volumes:
-#      - ./flags/chal2:/www/flag.txt:ro
-#    labels:
-#      kompose.service.expose: "true"
-#
+  simple_http:
+    build: ./simple_http/
+    image: simple_http
+    ports:
+      - "8080:80"
+    volumes:
+      - ./build/flags/chal1:/www/flag.txt:ro
+    labels:
+      kompose.service.expose: "true"
+
 #  simple_tcp:
 #    build: ./simple_tcp/
 #    image: simple_tcp
@@ -42,7 +42,7 @@ services:
 #    ports:
 #      - "4321:2701"
 #    volumes:
-#      - ./flags/chal2:/flag.txt:ro
+#      - ./build/flags/chal2:/flag.txt:ro
 #    labels:
 #      kompose.service.type: nodeport
 

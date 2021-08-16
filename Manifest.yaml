@@ -9,16 +9,16 @@ app:
     - type: http
       #tls: true
       #plain: true
-      serviceName: extern_http
-      servicePort: 8081
+      serviceName: simple_http
+      servicePort: 8080
       #requires_url: https://testchallenge.chals.testctf.com/
+      hide_in: [chal1]
 #    - type: http
 #      #tls: true
 #      #plain: true
-#      serviceName: simple_http
-#      servicePort: 8080
+#      serviceName: extern_http
+#      servicePort: 8081
 #      #requires_url: https://testchallenge.chals.testctf.com/
-#      hide_in: [chal1]
 #    - type: tcp
 #      serviceName: extern_tcp
 #      servicePort: 1234
